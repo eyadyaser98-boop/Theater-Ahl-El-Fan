@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أهل الفن | نظام الانضمام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700&display=swap');
+        body { background: #050505; color: white; font-family: 'Cairo', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; }
+        
+        .glass-box { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 2rem; 
+            width: 100%; 
+            max-width: 450px; 
+            padding: 2.5rem; 
+            box-shadow: 0 0 40px rgba(0,0,0,0.5); 
+        }
+
+        .input-style { background: #0d0d0d; border: 1px solid #1a1a1a; transition: 0.3s; color: white; }
+        .input-style:focus { border-color: #d4af37; background: #121212; outline: none; }
+        
+        .btn-action { 
+            background: transparent; 
+            border: 1px solid #d4af37; 
+            color: #d4af37; 
+            cursor: pointer; 
+            transition: 0.4s; 
+        }
+        .btn-action:hover { background: #d4af37; color: #000; }
+        
+        select { appearance: none; cursor: pointer; }
+        option { background: #000; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="glass-box text-center">
+        <i data-lucide="theater" class="w-12 h-12 text-[#d4af37] mx-auto mb-4"></i>
+        <h2 class="text-3xl font-bold mb-1 text-[#d4af37]">أهل الفن</h2>
+        <p class="text-[10px] text-gray-500 mb-8 uppercase tracking-widest">إشراف المخرج: أنس ياسر الطاهري</p>
+
+        <form id="actingForm" class="space-y-4 text-right">
+            <div>
+                <label class="text-[10px] text-gray-400 mr-2 uppercase">الاسم الكامل</label>
+                <input type="text" id="name" class="input-style w-full p-4 rounded-xl" placeholder="اكتب اسمك يا نجم" required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] text-gray-400 mr-2 uppercase">السن</label>
+                    <input type="number" id="age" class="input-style w-full p-4 rounded-xl" placeholder="سنك" required>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 mr-2 uppercase">النوع</label>
+                    <select id="gender" class="input-style w-full p-4 rounded-xl" required>
+                        <option value="" disabled selected>اختار..</option>
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] text-gray-400 mr-2 uppercase">الطول (سم) - تقريباً</label>
+                    <input type="number" id="height" class="input-style w-full p-4 rounded-xl" placeholder="مثلاً: 175" required>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 mr-2 uppercase">الوزن (كجم) - تقريباً</label>
+                    <input type="number" id="weight" class="input-style w-full p-4 rounded-xl" placeholder="مثلاً: 70" required>
+                </div>
+            </div>
+
+            <div>
+                <label class="text-[10px] text-gray-400 mr-2 uppercase">رقم الواتساب</label>
+                <input type="tel" id="phone" class="input-style w-full p-4 rounded-xl" placeholder="01xxxxxxxxx" required>
+            </div>
+
+            <div>
+                <label class="text-[10px] text-gray-400 mr-2 uppercase">التخصص الأدائي</label>
+                <select id="skill" class="input-style w-full p-4 rounded-xl" required>
+                    <option value="" disabled selected>اختار تخصصك</option>
+                    <option value="كوميديا">كوميديا (خفة وارتجال)</option>
+                    <option value="دراما اجتماعية">دراما اجتماعية</option>
+                    <option value="تراجيديا (عياط وتأثير)">تراجيديا (عياط وتأثير)</option>
+                    <option value="أكشن وحركة">أكشن وحركة</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-[10px] text-gray-400 mr-2 uppercase">إيه اللي هتضيفه للفرقة؟ (اختياري)</label>
+                <textarea id="about" class="input-style w-full p-4 rounded-xl" rows="3" placeholder="كلمة عن شغفك.."></textarea>
+                <p class="text-[9px] text-[#d4af37] mt-1 mr-2 opacity-80">* هذا السؤال اختياري لكن إجابته تفرق في تحديد مكانك في الفرقة.</p>
+            </div>
+
+            <button type="button" onclick="validateAndSend()" class="btn-action w-full py-4 rounded-xl font-bold text-lg mt-4 transition hover:scale-105">
+                إرسال طلب الانضمام
+            </button>
+        </form>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function validateAndSend() {
+            const form = document.getElementById('actingForm');
+            if (!form.checkValidity()) {
+                alert("يا بطل، لازم تملأ كل البيانات الأساسية عشان نقبل طلبك!");
+                return;
+            }
+
+            const message = `طلب انضمام جديد لفرقة أهل الفن:%0A%0A` +
+                            `الاسم: ${document.getElementById('name').value}%0A` +
+                            `السن: ${document.getElementById('age').value}%0A` +
+                            `النوع: ${document.getElementById('gender').value}%0A` +
+                            `الطول: ${document.getElementById('height').value} سم (تقريباً)%0A` +
+                            `الوزن: ${document.getElementById('weight').value} كجم (تقريباً)%0A` +
+                            `الواتساب: ${document.getElementById('phone').value}%0A` +
+                            `التخصص: ${document.getElementById('skill').value}%0A` +
+                            `الإضافة: ${document.getElementById('about').value || 'لم يتم إضافة تعليق'}`;
+
+            window.open(`https://wa.me/201200246120?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
